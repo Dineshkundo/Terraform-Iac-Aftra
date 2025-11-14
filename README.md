@@ -337,8 +337,53 @@ TFVARS_FILE = matching_service.tfvars
 Terraform will deploy only that VM.
 
 ---
+# 🛠 Troubleshooting Remote State (Azure Blob Lease Lock)
+```
+Sometimes Terraform leaves a state lock during:
 
-# 📌 10. **Common Questions**
+Jenkins job crash
+
+Partial apply
+
+Network interruption
+
+This results in:
+
+Error acquiring state lock
+Blob is currently leased
+
+🔍 1. Check the lease state
+az storage blob show \
+  --account-name codadevsa \
+  --container-name tfstate \
+  --name dev.terraform.tfstate \
+  --query properties.lease
+
+If output shows "leased" → lock exists
+If "unlocked" → safe to continue
+🔓 2. Break the Lease (Safe Reset)
+az storage blob lease break \
+  --account-name codadevsa \
+  --container-name tfstate \
+  --blob-name dev.terraform.tfstate \
+  --auth-mode login
+
+
+Wait a few seconds.
+
+✔ 3. Verify Again
+az storage blob show \
+  --account-name codadevsa \
+  --container-name tfstate \
+  --name dev.terraform.tfstate \
+  --query properties.lease
+
+
+Should return:
+
+"unlocked"
+```
+# 📌 11. **Common Questions**
 
 ### **Q1: Why does apply sometimes show “No changes”?**
 
