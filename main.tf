@@ -38,12 +38,12 @@ module "storage" {
 ##################################################
 # KEY VAULT
 #####################
-module "key_vault" {
-  for_each = var.deploy_kv ? var.key_vaults : {}
+module "keyvault" {
+  for_each = var.deploy_kv ? var.keyvaults : {}
   source   = "./modules/keyvault"
 
   key_vaults = {
-    for k, v in var.key_vaults : k => v
+    for k, v in var.keyvaults : k => v
   }
 }
 #######################################
@@ -56,7 +56,7 @@ locals {
 #############################################
 # DYNAMIC VM CREATION MODULE
 #############################################
-module "vm" {
+module "virtual_machine" {
   source   = "./modules/virtual_machine"
   for_each = var.deploy_vm ? local.vms : {}
 

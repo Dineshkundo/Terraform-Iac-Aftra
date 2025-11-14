@@ -58,7 +58,7 @@ variable "deploy_kv" {
   type        = bool
   default     = false
 }
-variable "key_vaults" {
+variable "keyvaults" {
   description = "Map of Key Vault configurations"
   type = map(object({
     name                = string
