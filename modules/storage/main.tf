@@ -110,4 +110,3 @@ resource "azurerm_management_lock" "storage_lock" {
   lock_level = "CanNotDelete"
   notes      = "Prevents accidental deletion"
 }
-
