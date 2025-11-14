@@ -9,33 +9,38 @@ This explains your current Terraform repo layout in a clear, production-ready fo
 ## 📁 **Repository Structure**
 
 ```
-iac-terraform/
+Terraform-Iac-Aftra/
+│
+├── backend.tf              # global backend
+├── main.tf                 # root modules (storage, kv, vm)
+├── variables.tf            # root variables
+├── README.md
+│
 ├── envs/
 │   ├── dev/
-│   │   ├── backend.tf
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── matching_service.tfvars
-│   │   ├── kv.tfvars
-│   │   ├── terraform.storage.tfvars
-│   │   ├── vm.tfvars
-│   └── test/
+│   │   ├── dynamic.tfvars            # storage, kv, vm toggles + definitions
+│   │   ├── matching_service.tfvars   # vm-specific overrides
+│   │   └── backend.dev.tfvars        # optional backend overrides
+│   │
+│   ├── test/
+│   │   └── dynamic.tfvars
 │   └── prod/
+│       └── dynamic.tfvars
 │
-├── modules/
-│   ├── vm/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   ├── storage/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   └── kv/
-│       ├── main.tf
-│       └── variables.tf
-│
-└── README.md
+└── modules/
+    ├── storage/
+    │   ├── storage.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    ├── keyvault/
+    │   ├── keyvault.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    └── virtual_machine/
+        ├── virtual_machine.tf
+        ├── variables.tf
+        └── outputs.tf
+
 ```
 
 ---
