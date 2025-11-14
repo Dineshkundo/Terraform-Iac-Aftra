@@ -21,7 +21,7 @@ provider "azurerm" {
 #############################################
 module "storage" {
   for_each = var.deploy_storage ? var.storage_accounts : {}
-  source   = "../../modules/storage"
+  source   = "./modules/storage"
 
   storage_account_name  = each.value.storage_account_name
   resource_group_name   = var.resource_group_name
@@ -40,7 +40,7 @@ module "storage" {
 #####################
 module "key_vault" {
   for_each = var.deploy_kv ? var.key_vaults : {}
-  source   = "../../modules/kv"
+  source   = "./modules/keyvault"
 
   key_vaults = {
     for k, v in var.key_vaults : k => v
@@ -57,7 +57,7 @@ locals {
 # DYNAMIC VM CREATION MODULE
 #############################################
 module "vm" {
-  source   = "../../modules/vm"
+  source   = "./modules/virtual_machine"
   for_each = var.deploy_vm ? local.vms : {}
 
   vm_name                    = each.value.vm_name
