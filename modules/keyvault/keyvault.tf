@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "this" {
-  for_each            = var.key_vaults
+  for_each            = var.keyvaults
   name                = each.value.name
   location            = each.value.location
   resource_group_name = each.value.resource_group_name
@@ -43,7 +43,7 @@ resource "azurerm_key_vault" "this" {
 locals {
   # Build a flattened list of all secrets across all vaults
   all_secrets = flatten([
-    for vault_key, vault in var.key_vaults : [
+    for vault_key, vault in var.keyvaults : [
       for secret_name in vault.secrets : {
         vault_name = vault_key
         name       = secret_name
@@ -68,7 +68,7 @@ resource "azurerm_key_vault_secret" "secrets" {
 # -----------------------------
 locals {
   all_keys = flatten([
-    for vault_key, vault in var.key_vaults : [
+    for vault_key, vault in var.keyvaults : [
       for key_name in vault.keys : {
         vault_name = vault_key
         name       = key_name

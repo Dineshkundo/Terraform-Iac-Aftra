@@ -42,7 +42,7 @@ module "keyvault" {
   for_each = var.deploy_kv ? var.keyvaults : {}
   source   = "./modules/keyvault"
 
-  key_vaults = {
+  keyvaults = {
     for k, v in var.keyvaults : k => v
   }
 }
