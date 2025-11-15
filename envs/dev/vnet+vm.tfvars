@@ -125,7 +125,7 @@ virtual_machines = {
 
     network = {
       use_existing       = false
-      vnet_key           = "dev"
+      vnet_key           = "dev" //virtual_network dev{} name
       subnet_name        = "Subnet1"
       existing_subnet_id = ""
       existing_vnet_id   = ""
