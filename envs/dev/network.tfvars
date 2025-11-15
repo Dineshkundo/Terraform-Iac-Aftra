@@ -1,5 +1,16 @@
-deploy_vnet = true
+subscription_id = "d629b553-466f-4caa-b64b-9ba2bae97c3f"
 
+############################################################
+# DEPLOY ONLY VIRTUAL NETWORK
+############################################################
+deploy_vnet = true
+deploy_vm   = false
+deploy_kv   = false
+deploy_storage = false
+
+############################################################
+# VIRTUAL NETWORK CONFIG
+############################################################
 virtual_networks = {
   dev = {
     vnet_name           = "Test-DevVnet"
@@ -7,7 +18,11 @@ virtual_networks = {
     resource_group_name = "CODA_RG"
     address_space       = ["10.0.0.0/16"]
 
+    ########################################################
+    # SUBNETS
+    ########################################################
     subnets = {
+
       GatewaySubnet = {
         name           = "GatewaySubnet"
         address_prefix = "10.0.6.0/24"
@@ -139,6 +154,9 @@ virtual_networks = {
       }
     }
 
+    ########################################################
+    # VNET PEERINGS
+    ########################################################
     peerings = {
       governance = {
         name                    = "test-governance"
@@ -150,6 +168,9 @@ virtual_networks = {
       }
     }
 
+    ########################################################
+    # TAGS
+    ########################################################
     tags = {
       Environment = "dev"
       ManagedBy   = "Terraform"
