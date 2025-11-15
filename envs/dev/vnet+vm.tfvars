@@ -59,8 +59,8 @@ virtual_machines = {
 
     network = {
       use_existing       = true
-      existing_subnet_id = "/subscriptions/.../subnets/Subnet1"
-      existing_vnet_id   = "/subscriptions/.../virtualNetworks/DevVnet"
+      existing_subnet_id = "/subscriptions/d629b553-466f-4caa-b64b-9ba2bae97c3f/resourceGroups/CODA_RG/providers/Microsoft.Network/virtualNetworks/DevVnet/subnets/Subnet1"
+      existing_vnet_id   = "/subscriptions/d629b553-466f-4caa-b64b-9ba2bae97c3f/resourceGroups/CODA_RG/providers/Microsoft.Network/virtualNetworks/DevVnet"
       vnet_key           = ""
       subnet_name        = ""
     }
