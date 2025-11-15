@@ -15,7 +15,26 @@ provider "azurerm" {
   resource_provider_registrations = "none"
 }
 
+###############################################################
+# 1) VIRTUAL NETWORK 
+###############################################################
+locals {
+  vnets = try(var.virtual_networks, {})
+}
 
+module "virtual_network" {
+  source   = "./modules/virtual_network"
+  for_each = var.deploy_vnet ? local.vnets : {}
+
+  vnet_name           = each.value.vnet_name
+  location            = each.value.location
+  resource_group_name = each.value.resource_group_name
+  address_space       = each.value.address_space
+
+  subnets             = each.value.subnets
+  peerings = each.value.peerings
+  tags     = each.value.tags
+}
 #############################################
 # DYNAMIC STORAGE ACCOUNT CREATION
 #############################################
@@ -93,3 +112,4 @@ module "virtual_machine" {
   extensions                   = lookup(each.value, "extensions", [])
   tags                         = lookup(each.value, "tags", { Environment = "dev", ManagedBy = "Terraform" })
 }
+

@@ -180,3 +180,47 @@ variable "virtual_machines" {
   }))
   default = {}
 }
+
+#######################################
+# Network
+######################################
+variable "deploy_vnet" {
+  type        = bool
+  default     = false
+  description = "Toggle to deploy virtual network module"
+}
+
+variable "virtual_networks" {
+  type = map(object({
+    vnet_name           = string
+    location            = string
+    resource_group_name = string
+    address_space       = list(string)
+
+    subnets = map(object({
+      name                                 = string
+      address_prefix                       = string
+      nsg_id                               = optional(string)
+      route_table_id                       = optional(string)
+      private_endpoint_network_policies    = optional(string, "Disabled")
+      private_link_service_network_policies= optional(string, "Enabled")
+      service_endpoints                    = list(string)
+      delegations = optional(list(object({
+        name         = string
+        service_name = string
+      })), [])
+    }))
+
+    peerings = map(object({
+      name                    = string
+      remote_vnet_id          = string
+      allow_vnet_access       = bool
+      allow_forwarded_traffic = bool
+      allow_gateway_transit   = bool
+      use_remote_gateways     = bool
+    }))
+
+    tags = map(string)
+  }))
+  default = {}
+}
