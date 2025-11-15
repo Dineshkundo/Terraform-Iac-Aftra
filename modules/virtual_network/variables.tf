@@ -22,10 +22,6 @@ variable "subnets" {
     nsg_id         = optional(string)
     route_table_id = optional(string)
 
-    # Correct v4.52 attributes
-    enforce_private_link_endpoint_network_policies = optional(bool, false)
-    enforce_private_link_service_network_policies  = optional(bool, false)
-
     service_endpoints = list(string)
 
     delegations = optional(list(object({

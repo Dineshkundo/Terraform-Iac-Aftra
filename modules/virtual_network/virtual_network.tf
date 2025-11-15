@@ -24,9 +24,6 @@ resource "azurerm_subnet" "subnets" {
   # Service Endpoints
   service_endpoints = each.value.service_endpoints
 
-  # CORRECT attributes for AzureRM provider v4.52+
-  enforce_private_link_endpoint_network_policies = try(each.value.enforce_private_link_endpoint_network_policies, false)
-  enforce_private_link_service_network_policies  = try(each.value.enforce_private_link_service_network_policies, false)
 
   # Subnet Delegation (dynamic block)
   dynamic "delegation" {
