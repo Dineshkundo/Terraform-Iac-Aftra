@@ -30,78 +30,78 @@ virtual_networks = {
   }
 }
 
-############################################################
-# DEPLOY VMs
-############################################################
-deploy_vm = true
+# ############################################################
+# # DEPLOY VMs
+# ############################################################
+# deploy_vm = true
 
-virtual_machines = {
+# virtual_machines = {
   
-  ##########################################################
-  # VM 1 - USE EXISTING VNET
-  ##########################################################
-  existingvm = {
-    vm_name             = "existing-vm"
-    os_type             = "Linux"
-    location            = "eastus"
-    resource_group_name = "CODA_RG"
-    vm_size             = "Standard_B2ms"
-    availability_zone   = "1"
+#   ##########################################################
+#   # VM 1 - USE EXISTING VNET
+#   ##########################################################
+#   existingvm = {
+#     vm_name             = "existing-vm"
+#     os_type             = "Linux"
+#     location            = "eastus"
+#     resource_group_name = "CODA_RG"
+#     vm_size             = "Standard_B2ms"
+#     availability_zone   = "1"
 
-    admin_username = "azureuser"
-    admin_password = ""
+#     admin_username = "azureuser"
+#     admin_password = ""
 
-    ssh_key_from_keyvault      = true
-    ssh_key_vault_name         = "CODADEV"
-    ssh_key_vault_rg           = "CODA_RG"
-    ssh_public_key_secret_name = "sshPublicKey"
-    ssh_public_key             = ""
+#     ssh_key_from_keyvault      = true
+#     ssh_key_vault_name         = "CODADEV"
+#     ssh_key_vault_rg           = "CODA_RG"
+#     ssh_public_key_secret_name = "sshPublicKey"
+#     ssh_public_key             = ""
 
-    network = {
-      use_existing       = true
-      existing_subnet_id = "/subscriptions/d629b553-466f-4caa-b64b-9ba2bae97c3f/resourceGroups/CODA_RG/providers/Microsoft.Network/virtualNetworks/DevVnet/subnets/Subnet1"
-      existing_vnet_id   = "/subscriptions/d629b553-466f-4caa-b64b-9ba2bae97c3f/resourceGroups/CODA_RG/providers/Microsoft.Network/virtualNetworks/DevVnet"
-      vnet_key           = ""
-      subnet_name        = ""
-    }
+#     network = {
+#       use_existing       = true
+#       existing_subnet_id = "/subscriptions/d629b553-466f-4caa-b64b-9ba2bae97c3f/resourceGroups/CODA_RG/providers/Microsoft.Network/virtualNetworks/DevVnet/subnets/Subnet1"
+#       existing_vnet_id   = "/subscriptions/d629b553-466f-4caa-b64b-9ba2bae97c3f/resourceGroups/CODA_RG/providers/Microsoft.Network/virtualNetworks/DevVnet"
+#       vnet_key           = ""
+#       subnet_name        = ""
+#     }
 
-    create_nic           = true
-    network_interface_id = ""
-    attach_public_ip     = false
+#     create_nic           = true
+#     network_interface_id = ""
+#     attach_public_ip     = false
 
-    image = {
-      publisher = "Canonical"
-      offer     = "0001-com-ubuntu-server-jammy"
-      sku       = "22_04-lts-gen2"
-      version   = "latest"
-    }
+#     image = {
+#       publisher = "Canonical"
+#       offer     = "0001-com-ubuntu-server-jammy"
+#       sku       = "22_04-lts-gen2"
+#       version   = "latest"
+#     }
 
-    os_disk_name                 = "existing-vm-osdisk"
-    os_disk_size_gb              = 30
-    os_disk_storage_account_type = "Premium_LRS"
+#     os_disk_name                 = "existing-vm-osdisk"
+#     os_disk_size_gb              = 30
+#     os_disk_storage_account_type = "Premium_LRS"
 
-    data_disks = []
+#     data_disks = []
 
-    extensions = []
-    nsg = {
-      create_nic_nsg = true
-      rules = [{
-        name                       = "AllowSSH"
-        priority                   = 100
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "0.0.0.0/0"
-        destination_address_prefix = "*"
-      }]
-    }
+#     extensions = []
+#     nsg = {
+#       create_nic_nsg = true
+#       rules = [{
+#         name                       = "AllowSSH"
+#         priority                   = 100
+#         direction                  = "Inbound"
+#         access                     = "Allow"
+#         protocol                   = "Tcp"
+#         source_port_range          = "*"
+#         destination_port_range     = "22"
+#         source_address_prefix      = "0.0.0.0/0"
+#         destination_address_prefix = "*"
+#       }]
+#     }
 
-    tags = {
-      service = "existing-service"
-    }
-  },
+#     tags = {
+#       service = "existing-service"
+#     }
+#   },
 
   ##########################################################
   # VM 2 - USE NEW CREATED VNET
