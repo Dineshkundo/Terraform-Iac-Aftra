@@ -93,19 +93,12 @@ module "virtual_machine" {
   ssh_public_key_secret_name = lookup(each.value, "ssh_public_key_secret_name", "")
   ssh_public_key             = lookup(each.value, "ssh_public_key", "")
   admin_password_secret_name = lookup(each.value, "admin_password_secret_name", "")
-  # -------------------------------
-  # 🔥 Inject subnet dynamically from VNET module
-  # -------------------------------
   network = {
-    use_existing       = true
-    existing_vnet_id   = module.virtual_network[each.value.network.vnet_key].vnet_id
-    existing_subnet_id = module.virtual_network[each.value.network.vnet_key].subnet_ids[each.value.network.subnet_name]
-
-    vnet_name         = ""
-    address_space     = []
-    subnet_name       = ""
-    subnet_prefixes   = []
-    service_endpoints = []
+    subnet_id = (
+      each.value.network.use_existing == true ?
+      each.value.network.existing_subnet_id :
+      module.virtual_network[each.value.network.vnet_key].subnet_ids[each.value.network.subnet_name]
+    )
   }
   # -------------------------------
   create_nic                 = lookup(each.value, "create_nic", true)
@@ -118,7 +111,6 @@ module "virtual_machine" {
     sku       = each.value.os_type == "Windows" ? "2019-datacenter-gensecond" : "22_04-lts-gen2"
     version   = "latest"
   }
-
   os_disk_name                 = lookup(each.value, "os_disk_name", "${each.value.vm_name}-osdisk")
   os_disk_size_gb              = lookup(each.value, "os_disk_size_gb", 64)
   os_disk_storage_account_type = lookup(each.value, "os_disk_storage_account_type", "Premium_LRS")

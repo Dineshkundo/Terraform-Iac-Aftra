@@ -62,15 +62,9 @@ variable "ssh_public_key" {
 }
 
 variable "network" {
+  description = "Network config for this VM. Pass subnet_id from root."
   type = object({
-    use_existing        = bool
-    existing_vnet_id    = string
-    existing_subnet_id  = string
-    vnet_name           = string
-    address_space       = list(string)
-    subnet_name         = string
-    subnet_prefixes     = list(string)
-    service_endpoints   = list(string)
+    subnet_id = string
   })
 }
 

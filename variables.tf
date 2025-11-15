@@ -110,16 +110,12 @@ variable "virtual_machines" {
     ssh_public_key             = string
     admin_password_secret_name = optional(string, "adminPassword")
 
-    # Network configuration
     network = object({
-      use_existing        = bool
-      existing_vnet_id    = string
-      existing_subnet_id  = string
-      vnet_name           = string
-      address_space       = list(string)
-      subnet_name         = string
-      subnet_prefixes     = list(string)
-      service_endpoints   = list(string)
+      use_existing       = bool
+      existing_subnet_id = optional(string, "")
+      vnet_key           = optional(string, "")
+      subnet_name        = optional(string, "")
+      existing_vnet_id   = optional(string, "")
     })
 
     create_nic           = bool

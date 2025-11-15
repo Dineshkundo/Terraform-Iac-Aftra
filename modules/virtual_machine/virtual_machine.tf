@@ -40,34 +40,6 @@ locals {
       ? data.azurerm_key_vault_secret.ssh_pub[0].value
       : var.ssh_public_key
   )
-
-  effective_subnet_id = (
-    var.network.use_existing
-      ? var.network.existing_subnet_id
-      : azurerm_subnet.subnet[0].id
-  )
-}
-
-
-#############################################
-# Create VNet + Subnet (only if not existing)
-#############################################
-resource "azurerm_virtual_network" "vnet" {
-  count               = var.network.use_existing ? 0 : 1
-  name                = var.network.vnet_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  address_space       = var.network.address_space
-  tags                = var.tags
-}
-
-resource "azurerm_subnet" "subnet" {
-  count                = var.network.use_existing ? 0 : 1
-  name                 = var.network.subnet_name
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.vnet[0].name
-  address_prefixes     = var.network.subnet_prefixes
-  service_endpoints    = var.network.service_endpoints
 }
 
 #############################################
@@ -84,7 +56,7 @@ resource "azurerm_public_ip" "pip" {
 }
 
 #############################################
-# NIC (if create_nic = true)
+# NIC (cleaned — uses only subnet_id)
 #############################################
 resource "azurerm_network_interface" "nic" {
   count               = var.create_nic ? 1 : 0
@@ -95,7 +67,7 @@ resource "azurerm_network_interface" "nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = local.effective_subnet_id
+    subnet_id                     = var.network.subnet_id
     private_ip_address_allocation = var.private_ip_allocation
     private_ip_address            = var.private_ip_address
     public_ip_address_id          = var.attach_public_ip ? azurerm_public_ip.pip[0].id : null
