@@ -2,7 +2,7 @@ deploy_vnet = true
 
 virtual_networks = {
   dev = {
-    vnet_name           = "DevVnet"
+    vnet_name           = "Test-DevVnet"
     location            = "eastus"
     resource_group_name = "CODA_RG"
     address_space       = ["10.0.0.0/16"]
@@ -141,7 +141,7 @@ virtual_networks = {
 
     peerings = {
       governance = {
-        name                    = "CODA-SECURITY-GOVERNANCE-LINK"
+        name                    = "test-governance"
         remote_vnet_id          = "/subscriptions/24c24505-fc0c-44cc-8ae7-42ff678fc879/resourceGroups/Security-Governance-RG/providers/Microsoft.Network/virtualNetworks/Security-Governance-VNet"
         allow_vnet_access       = true
         allow_forwarded_traffic = true
