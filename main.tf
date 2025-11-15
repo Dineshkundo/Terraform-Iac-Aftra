@@ -93,7 +93,21 @@ module "virtual_machine" {
   ssh_public_key_secret_name = lookup(each.value, "ssh_public_key_secret_name", "")
   ssh_public_key             = lookup(each.value, "ssh_public_key", "")
   admin_password_secret_name = lookup(each.value, "admin_password_secret_name", "")
-  network                    = lookup(each.value, "network", {})
+  # -------------------------------
+  # 🔥 Inject subnet dynamically from VNET module
+  # -------------------------------
+  network = {
+    use_existing       = true
+    existing_vnet_id   = module.virtual_network[each.value.network.vnet_key].vnet_id
+    existing_subnet_id = module.virtual_network[each.value.network.vnet_key].subnet_ids[each.value.network.subnet_name]
+
+    vnet_name         = ""
+    address_space     = []
+    subnet_name       = ""
+    subnet_prefixes   = []
+    service_endpoints = []
+  }
+  # -------------------------------
   create_nic                 = lookup(each.value, "create_nic", true)
   network_interface_id       = lookup(each.value, "network_interface_id", "")
   attach_public_ip           = lookup(each.value, "attach_public_ip", false)
