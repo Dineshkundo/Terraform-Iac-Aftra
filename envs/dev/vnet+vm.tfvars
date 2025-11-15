@@ -117,7 +117,7 @@ virtual_machines = {
     admin_username = "azureuser"
     admin_password = ""
 
-    ssh_key_from_keyvault      = false
+    ssh_key_from_keyvault      = true  //if true mention secret name must be provided
     ssh_key_vault_name         = ""
     ssh_key_vault_rg           = ""
     ssh_public_key_secret_name = "sshPublicKey"
