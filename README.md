@@ -128,13 +128,6 @@ Your final working Jenkinsfile:
 ```groovy
 pipeline {
   agent any
-
-  parameters {
-    choice(name: 'ENV', choices: ['dev','test','prod'], description: 'Environment folder')
-    choice(name: 'ACTION', choices: ['plan','apply','destroy'], description: 'Terraform action')
-    booleanParam(name: 'AUTO_APPROVE', defaultValue: false, description: 'Skip confirmation?')
-  }
-
   stages {
 
     stage('Checkout') {
@@ -177,6 +170,7 @@ pipeline {
       }
     }
 
+    // IMPORTANT FIX ⭐
     stage('Init') {
       steps {
         sh "terraform init"
@@ -211,6 +205,7 @@ pipeline {
     }
   }
 }
+
 ```
 
 ---
